@@ -1,6 +1,6 @@
 # random test code
 # can delete when building library
-
+from flowfabric_py import auto_streamflow_params
 from flowfabric_py.flowfabric_http import flowfabric_post, flowfabric_get
 from flowfabric_py.auth import flowfabric_get_token
 from flowfabric_py.client import (
@@ -26,12 +26,13 @@ params = {
     "scope": "features",
     "lead_start": 0,
     "lead_end": 0,
-    "format": "json"
+    "format": "json",
+    "dataset_id": "usgs_nwis_stage"
 }
 
-print(flowfabric_post("/v1/ratings", body=params))
+#print(flowfabric_post("/v1/ratings", body=params))
 
-print(flowfabric_ratings_query(feature_ids=["101", "1001"], format="json", scope="features", issue_time="latest", lead_start=0, lead_end=0, query_mode="run"))
+#print(flowfabric_ratings_query(feature_ids=["101", "1001"], format="json", scope="features", issue_time="latest", lead_start=0, lead_end=0, query_mode="run"))
 
 #print(flowfabric_ratings_estimate(feature_ids=["101", "1001"], format="json", scope="features", issue_time="latest", lead_start=0, lead_end=0, query_mode="run"))
 
@@ -49,4 +50,8 @@ print(flowfabric_ratings_query(feature_ids=["101", "1001"], format="json", scope
 
 #print(type(flowfabric_healthz()))
 
-print(flowfabric_stage_query("nws_owp_nwm_analysis", params=params))
+#print(flowfabric_stage_query("nws_owp_nwm_analysis", params=params))
+
+#print(flowfabric_post("/v1/stage", body=params))
+
+print(auto_streamflow_params("nws_owp_nwm_analysis"))
