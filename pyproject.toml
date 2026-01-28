@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flowfabricpy"
+version = "0.1.0"
+requires-python = ">=3.8"
+dependencies = ["requests"]
+description = "Python client for Flowfabric"
+readme = "README.md"
+license = "MIT"
+authors = [{name = "Paul Linza", email = "plinza@lynker.com"}]

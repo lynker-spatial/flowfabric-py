@@ -1,0 +1,12 @@
+LICENSE
+README.md
+pyproject.toml
+flowfabricpy.egg-info/PKG-INFO
+flowfabricpy.egg-info/SOURCES.txt
+flowfabricpy.egg-info/dependency_links.txt
+flowfabricpy.egg-info/requires.txt
+flowfabricpy.egg-info/top_level.txt
+tests/test_auth.py
+tests/test_catalog_utils.py
+tests/test_client.py
+tests/test_http.py
