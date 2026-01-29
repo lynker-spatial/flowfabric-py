@@ -3,14 +3,12 @@ import requests
 import pandas as pd
 
 # autofill streamflow parameters
-# function is working but slow
 def auto_streamflow_params(dataset_id):
     catalog = requests.get("https://flowfabric.lynker-spatial.com/catalog")
     json = catalog.json()['provider_groups']
     datasets = pd.json_normalize(json).to_dict()['datasets']
     datasets = datasets[0] + datasets[1] + datasets[2] + datasets[3]
     data = [value for value in datasets if value['id'] == dataset_id][0]
-    print(data)
 
     # determine if it is a reanalysis or not
     is_reanalysis = False
@@ -22,16 +20,16 @@ def auto_streamflow_params(dataset_id):
     if is_reanalysis:
         if 'default_start_time' in data:
             start_time = data['default_start_time']
-        if 'min_time' in data and 'default_start_time' not in data:
+        elif 'min_time' in data:
             start_time = data['min_time']
-        if 'min_time' not in data and 'default_start_time' not in data:
+        else:
             start_time = "2018-01-01T00:00:00Z"
 
         if 'default_end_time' in data:
             end_time = data['default_end_time']
-        if 'max_time' in data and 'default_end_time' not in data:
+        elif 'max_time' in data:
             end_time = data['max_time']
-        if 'max_time' not in data and 'default_end_time' not in data:
+        else:
             end_time = "2018-01-31T23:59:59Z"
 
         params = {
@@ -55,4 +53,3 @@ def auto_streamflow_params(dataset_id):
 
     catalog.close()
     return params
-

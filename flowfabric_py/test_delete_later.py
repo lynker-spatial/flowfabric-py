@@ -1,5 +1,7 @@
 # random test code
 # can delete when building library
+import time
+
 from flowfabric_py import auto_streamflow_params
 from flowfabric_py.flowfabric_http import flowfabric_post, flowfabric_get
 from flowfabric_py.auth import flowfabric_get_token
@@ -14,7 +16,7 @@ from flowfabric_py.client import (
     flowfabric_ratings_estimate,
     flowfabric_stage_query,
     flowfabric_healthz,
-    flowfabric_inundation_ids,
+    flowfabric_inundation_ids, normalize_time,
 )
 
 #print(flowfabric_get("/v1/datasets"))
@@ -27,7 +29,6 @@ params = {
     "lead_start": 0,
     "lead_end": 0,
     "format": "json",
-    "dataset_id": "usgs_nwis_stage"
 }
 
 #print(flowfabric_post("/v1/ratings", body=params))
@@ -54,4 +55,11 @@ params = {
 
 #print(flowfabric_post("/v1/stage", body=params))
 
-print(auto_streamflow_params("nws_owp_nwm_analysis"))
+#print(auto_streamflow_params("nws_owp_nwm_analysis"))
+
+#print(flowfabric_streamflow_estimate("nws_owp_nwm_reanalysis_3_0"))
+
+print(normalize_time("2018-01-01"))
+print(type(normalize_time("2018-01-01")))
+print(normalize_time("2018-01-01T00:01:02Z"))
+print(normalize_time(None))
