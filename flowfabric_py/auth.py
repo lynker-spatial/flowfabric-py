@@ -120,3 +120,7 @@ def flowfabric_get_token(force_refresh=False):
         token_cache = token
 
     return token
+
+# refresh token
+def flowfabric_refresh_token():
+    flowfabric_get_token(force_refresh=True)

@@ -19,7 +19,7 @@ from flowfabric_py.client import (
     flowfabric_inundation_ids, normalize_time,
 )
 
-#print(flowfabric_get("/v1/datasets"))
+#print(flowfabric_get("/v1/datasets/"))
 
 params = {
     "query_mode": "run",
@@ -59,7 +59,9 @@ params = {
 
 #print(flowfabric_streamflow_estimate("nws_owp_nwm_reanalysis_3_0"))
 
-print(normalize_time("2018-01-01"))
-print(type(normalize_time("2018-01-01")))
-print(normalize_time("2018-01-01T00:01:02Z"))
-print(normalize_time(None))
+#print(normalize_time("2018-01-01"))
+#print(type(normalize_time("2018-01-01")))
+#print(normalize_time("2018-01-01T00:01:02Z"))
+#print(normalize_time(None))
+
+print(flowfabric_streamflow_query("nws_owp_nwm_analysis"))
