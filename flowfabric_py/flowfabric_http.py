@@ -17,7 +17,7 @@ def flowfabric_get(endpoint, token=None, verbose=False):
         url = "".join([base_url, endpoint])
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
-        return response.json() if 'application/json' in response.headers.get('Content-Type', '') else response
+        return response
     except requests.exceptions.Timeout:
         return {"Error": "Request timed out"}
     except requests.exceptions.RequestException as e:
@@ -36,7 +36,7 @@ def flowfabric_post(endpoint, body, token=None, verbose=False):
         }
         url = "".join([base_url, endpoint])
         response = requests.post(url, json=body, headers=headers, timeout=10)
-        return response.json() if 'application/json' in response.headers.get('Content-Type', '') else response
+        return response
     except requests.exceptions.Timeout:
         return{"Error": "Request timed out"}
     except requests.exceptions.RequestException as e:

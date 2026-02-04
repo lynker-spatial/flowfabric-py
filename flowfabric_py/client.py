@@ -16,11 +16,12 @@ from .auth import flowfabric_get_token
 # list all datasets
 def flowfabric_list_datasets():
     resp = flowfabric_get("/v1/datasets", token=None)
-    resp = [x for x in resp if x is not None and isinstance(x, dict) and len(x) > 0]
-    if len(resp) == 0:
+    json_resp = resp.json()
+    json_resp = [x for x in json_resp if x is not None and isinstance(x, dict) and len(x) > 0]
+    if len(json_resp) == 0:
         return list()
     # add filtering
-    return resp
+    return json_resp
 
 # return a specific dataset
 def flowfabric_get_dataset(dataset_id, token=None, verbose=False):
@@ -29,7 +30,7 @@ def flowfabric_get_dataset(dataset_id, token=None, verbose=False):
         token = get_bearer_token()
     endpoint = "".join(["/v1/datasets/", dataset_id])
     resp = flowfabric_get(endpoint, token=token, verbose=verbose)
-    return resp
+    return resp.json()
 
 # get latest run for a specific dataset
 def flowfabric_get_latest_run(dataset_id, token=None, verbose=False):
@@ -38,7 +39,7 @@ def flowfabric_get_latest_run(dataset_id, token=None, verbose=False):
         token = get_bearer_token()
     endpoint = "".join(["/v1/datasets/", dataset_id, "/runs/latest"])
     resp = flowfabric_get(endpoint, token=token, verbose=verbose)
-    return resp
+    return resp.json()
 
 # get a specific run for a specified dataset
 def flowfabric_get_run(dataset_id, issue_time, token=None, verbose=False):
@@ -47,7 +48,7 @@ def flowfabric_get_run(dataset_id, issue_time, token=None, verbose=False):
         token = get_bearer_token()
     endpoint = "".join(["/v1/datasets/", dataset_id, "/runs/", issue_time])
     resp = flowfabric_get(endpoint, token=token, verbose=verbose)
-    return resp
+    return resp.json()
 
 # query streamflow
 def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, end_time=None, issue_time=None, params=None, token=None, verbose=False, **kwargs):
@@ -148,8 +149,10 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
     # if not zarr, proceed as normal
     endpoint = "".join(["/v1/datasets/", dataset_id, "/streamflow"])
     resp = flowfabric_post(endpoint, body=query_params, token=token, verbose=verbose)
+    to_json = resp.json()
     # parse based on content type of output
-    content_type = resp.headers.get('Content-Type')
+    content_resp = requests.get("".join(["https://flowfabric-api.lynker-spatial.com", endpoint]))
+    content_type = content_resp.headers.get('Content-Type')
     arrow_stream = re.compile(r"application/vnd\\.apache\\.arrow\\.stream").search(content_type)
     json_resp = re.compile(r"application/json").search(content_type)
     if arrow_stream is not None:
@@ -161,7 +164,7 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
             print(f"[flowfabric_streamflow_query] Raw body (text preview): {text_preview}") if verbose else None
             # if body looks like JSON, handle as base64-encoded Arrow
             if text_preview[0] == "{":
-                json_obj = json.loads(resp_raw)
+                json_obj = json.loads(resp_raw.json()) # might need to be changed to handle properly
                 if 'data' in json_obj:
                     print("[flowfabric_streamflow_query] Detected base64-encoded Arrow in JSON 'data' field.") if verbose else None
                     arrow_bin = base64.b64decode(json_obj)
@@ -186,14 +189,12 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
     elif json_resp is not None:
         print("[flowfabric_streamflow_query] Parsing response as JSON.") if verbose else None
         try:
-            json_data = json.loads(resp)
-            return json_data
+            return to_json
         except Exception as e:
             print(f"Error decoding JSON response: {e}")
 
     else:
         quit(f"Unsupported content type: {content_type}")
-    return resp
 
 # estimate size of streamflow data
 def flowfabric_streamflow_estimate(dataset_id, feature_ids=None, start_time=None, end_time=None, issue_time=None, params=None, token=None, verbose=False, **kwargs):
@@ -216,7 +217,7 @@ def flowfabric_streamflow_estimate(dataset_id, feature_ids=None, start_time=None
             query_params = auto_params
     endpoint = "".join(["/v1/datasets/", dataset_id, "/streamflow?estimate=TRUE"])
     resp = flowfabric_post(endpoint, body=query_params, token=token, verbose=verbose)
-    return resp
+    return resp.json()
 
 # query ratings
 def flowfabric_ratings_query(feature_ids, type="rem", format="arrow", token=None, verbose=False, **kwargs):
@@ -227,7 +228,13 @@ def flowfabric_ratings_query(feature_ids, type="rem", format="arrow", token=None
     if kwargs:
         params.update(kwargs)
     resp = flowfabric_post("/v1/ratings", body=params, token=token, verbose=verbose)
-    return resp
+    if format == "arrow":
+        print("[flowfabric_ratings_query] Parsing response as Arrow IPC stream.") if verbose else None
+        resp_raw = resp.raw.read()
+        return polars.read_ipc_stream(resp_raw)
+    else:
+        print("[flowfabric_ratings_query] Parsing response as JSON.") if verbose else None
+        return resp.json()
 
 # estimate size of ratings query data
 def flowfabric_ratings_estimate(feature_ids, type="rem", format="json", token=None, verbose=False, **kwargs):
@@ -238,7 +245,7 @@ def flowfabric_ratings_estimate(feature_ids, type="rem", format="json", token=No
     if kwargs:
         params.update(kwargs)
     resp = flowfabric_post("/v1/ratings?estimate=TRUE", body=params, token=token, verbose=verbose)
-    return resp
+    return resp.json()
 
 # query stage
 def flowfabric_stage_query(dataset_id, params=None, token=None, verbose=False, **kwargs):
@@ -250,7 +257,8 @@ def flowfabric_stage_query(dataset_id, params=None, token=None, verbose=False, *
     if params is None:
         params = auto_streamflow_params(dataset_id)
     resp = flowfabric_post("/v1/stage", body=params, token=token, verbose=verbose)
-    return resp
+    resp_raw = resp.raw.read()
+    return polars.read_ipc_stream(resp_raw)
 
 # query inundation polygon grid IDs
 def flowfabric_inundation_ids(params=list, token=None, verbose=False):
@@ -258,7 +266,7 @@ def flowfabric_inundation_ids(params=list, token=None, verbose=False):
         print("No token provided, using token from get_bearer_token().") if verbose else None
         token = get_bearer_token()
     resp = flowfabric_post("/v1/inundation-ids", body=params, token=token, verbose=verbose)
-    return resp
+    return resp.json()
 
 # health check
 def flowfabric_healthz(token=None, verbose=False):
@@ -266,7 +274,7 @@ def flowfabric_healthz(token=None, verbose=False):
         print("No token provided, using token from get_bearer_token().") if verbose else None
         token = get_bearer_token()
     resp = flowfabric_get("/healthz", token=token, verbose=verbose)
-    return resp
+    return resp.json()
 
 # bearer token utility function
 def get_bearer_token(force_refresh=False):

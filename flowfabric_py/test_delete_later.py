@@ -19,6 +19,8 @@ from flowfabric_py.client import (
     flowfabric_inundation_ids, normalize_time,
 )
 
+time.perf_counter()
+
 #print(flowfabric_get("/v1/datasets/"))
 
 params = {
@@ -37,7 +39,7 @@ params = {
 
 #print(flowfabric_ratings_estimate(feature_ids=["101", "1001"], format="json", scope="features", issue_time="latest", lead_start=0, lead_end=0, query_mode="run"))
 
-#print(type(flowfabric_post("/v1/ratings", body=params)))
+#print(flowfabric_post("/v1/ratings", body=params))
 
 #print(flowfabric_list_datasets())
 
@@ -64,4 +66,6 @@ params = {
 #print(normalize_time("2018-01-01T00:01:02Z"))
 #print(normalize_time(None))
 
-print(flowfabric_streamflow_query("nws_owp_nwm_analysis"))
+print(flowfabric_streamflow_query("lynker_spatial_ecwmf_glofas_global", issue_time = "latest"))
+
+time.perf_counter()
