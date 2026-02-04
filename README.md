@@ -1,4 +1,4 @@
-\# flowfabricpy: Effortless Python Access to FlowFabric API
+# flowfabricpy: Effortless Python Access to FlowFabric API
 
 
 
@@ -6,15 +6,15 @@
 
 
 
-\## Key Features
+## Key Features
 
-\- \*\*Evolving catalog\*\* of harmonized data from multiple models
+- **Evolving catalog** of harmonized data from multiple models
 
-\- \*\*Single method access\*\* to all models - both retrospective and forecast
+- **Single method access** to all models - both retrospective and forecast
 
-\- \*\*One-time authentication\*\*: Log in once, and your token is cached for future use.
+- **One-time authentication**: Log in once, and your token is cached for future use.
 
-\- \*\*Arrow IPC support\*\*: Fast, memory-efficient data transfer
+- **Arrow IPC support**: Fast, memory-efficient data transfer
 
 
 ## Troubleshooting
