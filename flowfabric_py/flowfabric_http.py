@@ -11,8 +11,7 @@ def flowfabric_get(endpoint, token=None, verbose=False):
         print("No token provided, using token from flowfabric_get_token()") if verbose else None
     try:
         headers = {
-            "Authorization": f"Bearer {token.strip()}",
-            "Accept": "application/json"
+            "Authorization": f"Bearer {token.strip()}"
         }
         url = "".join([base_url, endpoint])
         response = requests.get(url, headers=headers, timeout=10)

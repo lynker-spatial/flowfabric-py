@@ -1,6 +1,9 @@
 # random test code
 # can delete when building library
 import time
+import pyarrow.parquet as pq
+import polars
+import io
 
 from flowfabric_py import auto_streamflow_params
 from flowfabric_py.flowfabric_http import flowfabric_post, flowfabric_get
@@ -30,7 +33,7 @@ params = {
     "scope": "features",
     "lead_start": 0,
     "lead_end": 0,
-    "format": "json",
+    "format": "arrow",
 }
 
 #print(flowfabric_post("/v1/ratings", body=params))
@@ -45,27 +48,38 @@ params = {
 
 #print(flowfabric_get_token(force_refresh=True))
 
-#print(flowfabric_get_dataset("nws_owp_nwm_analysis", verbose=True))
+print(flowfabric_get_dataset("nws_owp_nwm_reanalysis_3_0"))
 
-#print(flowfabric_get_latest_run("nws_owp_nwm_analysis"))
+#print(flowfabric_get_latest_run("lynker_spatial_ecwmf_glofas_global"))
 
-#print(flowfabric_get_run("nws_owp_nwm_analysis", issue_time="2026010514"))
+#print(flowfabric_get_run("lynker_spatial_ecwmf_glofas_global", issue_time="2026010514"))
 
-#print(type(flowfabric_healthz()))
+#print(flowfabric_healthz())
 
 #print(flowfabric_stage_query("nws_owp_nwm_analysis", params=params))
+
+#params['dataset_id'] = "awi_nrds_short_range"
+#params['issue_time'] = "2026012316"
+#print(flowfabric_inundation_ids(params))
 
 #print(flowfabric_post("/v1/stage", body=params))
 
 #print(auto_streamflow_params("nws_owp_nwm_analysis"))
 
-#print(flowfabric_streamflow_estimate("nws_owp_nwm_reanalysis_3_0"))
+#print(flowfabric_streamflow_estimate("lynker_spatial_ecwmf_glofas_global", params=params))
 
 #print(normalize_time("2018-01-01"))
 #print(type(normalize_time("2018-01-01")))
 #print(normalize_time("2018-01-01T00:01:02Z"))
 #print(normalize_time(None))
 
-print(flowfabric_streamflow_query("lynker_spatial_ecwmf_glofas_global", issue_time = "latest"))
+#print(flowfabric_streamflow_query("lynker_spatial_ecwmf_glofas_global", params = params))
+
+#resp = flowfabric_post("/v1/datasets/lynker_spatial_ecwmf_glofas_global/streamflow", body=params)
+#print(polars.read_ipc_stream(resp.content))
+
+#(auto_streamflow_params("lynker_spatial_ecwmf_glofas_global"))
+
+#print(time.localtime(flowfabric_get_token()['expires_at']))
 
 time.perf_counter()

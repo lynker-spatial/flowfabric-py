@@ -5,10 +5,10 @@ import pandas as pd
 # autofill streamflow parameters
 def auto_streamflow_params(dataset_id):
     catalog = requests.get("https://flowfabric.lynker-spatial.com/catalog")
-    json = catalog.json()['provider_groups']
-    datasets = pd.json_normalize(json).to_dict()['datasets']
-    datasets = datasets[0] + datasets[1] + datasets[2] + datasets[3]
-    data = [value for value in datasets if value['id'] == dataset_id][0]
+    json_data = catalog.json()['provider_groups']
+    df = pd.json_normalize(json_data, record_path="datasets")
+    datasets = df.to_dict(orient='records')
+    data = next((dataset for dataset in datasets if dataset.get("id") == dataset_id), None)
 
     # determine if it is a reanalysis or not
     is_reanalysis = False
