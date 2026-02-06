@@ -139,4 +139,5 @@ def flowfabric_get_token(force_refresh=False):
 
 # refresh token
 def flowfabric_refresh_token():
-    flowfabric_get_token(force_refresh=True)
+    token = flowfabric_get_token(force_refresh=True)
+    return token

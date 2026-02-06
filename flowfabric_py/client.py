@@ -1,5 +1,6 @@
 # client.py
 import base64
+import pandas as pd
 import re
 import tempfile
 import io
@@ -19,42 +20,30 @@ def flowfabric_list_datasets():
     json_resp = [x for x in json_resp if x is not None and isinstance(x, dict) and len(x) > 0]
     if len(json_resp) == 0:
         return list()
-    # add filtering
+    # add filtering - does it need additional filtering?
     return json_resp
 
 # return a specific dataset
-def flowfabric_get_dataset(dataset_id, token=None, verbose=False):
-    if token is None:
-        print("No token provided, using token from get_bearer_token().") if verbose else None
-        token = get_bearer_token()
+def flowfabric_get_dataset(dataset_id, verbose=False):
     endpoint = "".join(["/v1/datasets/", dataset_id])
     resp = flowfabric_get(endpoint, verbose=verbose)
     return resp.json() # might need to be resp.content.json()
 
 # get latest run for a specific dataset
-def flowfabric_get_latest_run(dataset_id, token=None, verbose=False):
-    if token is None:
-        print("No token provided, using token from get_bearer_token().") if verbose else None
-        token = get_bearer_token()
+def flowfabric_get_latest_run(dataset_id, verbose=False):
     endpoint = "".join(["/v1/datasets/", dataset_id, "/runs/latest"])
     resp = flowfabric_get(endpoint, verbose=verbose)
-    return resp.json() # might need to be resp.content.json()
+    return resp.json()
 
 # get a specific run for a specified dataset
-def flowfabric_get_run(dataset_id, issue_time, token=None, verbose=False):
-    if token is None:
-        print("No token provided, using token from get_bearer_token().") if verbose else None
-        token = get_bearer_token()
+def flowfabric_get_run(dataset_id, issue_time, verbose=False):
     endpoint = "".join(["/v1/datasets/", dataset_id, "/runs/", issue_time])
     resp = flowfabric_get(endpoint, verbose=verbose)
-    return resp.json() # might need to be resp.content.json()
+    return resp.json()
 
 # query streamflow
-def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, end_time=None, issue_time=None, params=None, token=None, verbose=False, **kwargs):
-    if token is None:
-        print("No token provided, using token from get_bearer_token().") if verbose else None
-        token = get_bearer_token()
-    if params is not None:
+def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, end_time=None, issue_time=None, params=None, verbose=False, **kwargs):
+    if params:
         query_params = {k: v for k, v in params.items() if v is not None}
     else:
         query_params = dict()
@@ -71,21 +60,33 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
 
     # pre-fetch metadata to detect Zarr stores
     is_zarr = False
-    meta_json = None
+    dataset = [dataset for dataset in flowfabric_list_datasets() if dataset['name'] == dataset_id]
     try:
-        meta_end = "".join(["/v1/datasets/", dataset_id])
-        meta_json = flowfabric_get(meta_end, token=token, verbose=verbose)
-        is_zarr = is_zarr_dataset(meta_json)
+        is_zarr = is_zarr_dataset(dataset)
     except requests.exceptions.Timeout:
-        print({"Error": "Request timed out"})
+        raise RuntimeError({"Error": "Request timed out"})
     except requests.exceptions.RequestException as e:
-        print({"Error": str(e)})
+        raise RuntimeError({"Error": str(e)})
 
     # if dataset is zarr, avoid the presign/estimate step
     est_resp = None
+    est_content = None
+    full_dataset = (
+            query_params.get("scope") == "all"
+            and query_params.get("query_mode") == "run"
+    )
     if not is_zarr:
-        est_endpoint = "".join(["/v1/datasets/", dataset_id, "/streamflow?estimate=TRUE"])
-        est_resp = flowfabric_post(est_endpoint, body=query_params, verbose=verbose)
+        if full_dataset:
+            est_resp = flowfabric_streamflow_estimate(dataset_id, params=query_params, verbose=verbose)
+        else:
+            est_endpoint = f"/v1/datasets/{dataset_id}/streamflow"
+            est_resp = flowfabric_post(est_endpoint, body=query_params, verbose=verbose)
+            est_header = est_resp.headers.get('Content-Type')
+            if est_header == "application/vnd.apache.arrow.stream":
+                try:
+                    est_content = polars.read_ipc_stream(est_resp.content)
+                except Exception as e:
+                    raise RuntimeError({"Error reading Arrow IPC stream": str(e)})
     export_url = None
     if est_resp is not None and 'export_url' in est_resp:
         export_url = est_resp['export_url']
@@ -95,7 +96,7 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
         # check if data is zarr (same process as pre-check)
         is_zarr = False
         try:
-            is_zarr = is_zarr_dataset(export_url)
+            is_zarr = is_zarr_dataset(dataset)
         except requests.exceptions.Timeout:
             raise RuntimeError({"Error": "Request timed out"})
         except requests.exceptions.RequestException as e:
@@ -108,10 +109,10 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
             print("".join(["[flowfabric_streamflow_query] Dataset appears to be Zarr (is_zarr = ", is_zarr, "); allow_direct = ", allow_direct])) if verbose else None
 
         if allow_direct:
-            print("".join(["[flowfabric_streamflow_query] Server recommended export; reading export_url: ", export_url]))
+            print("".join(["[flowfabric_streamflow_query] Server recommended export; reading export_url: ", export_url])) if verbose else None
             # try direct Arrow read first
             try:
-                tbl = pq.read_table(export_url)
+                tbl = pd.read_parquet(export_url, engine="pyarrow")
                 return tbl
             except (OSError, ArrowInvalid) as err:
                 raise RuntimeError(f"Error reading Parquet file: {err}")
@@ -137,10 +138,16 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
         else:
             print("[flowfabric_streamflow_query] Ignoring export_url for Zarr dataset; proceeding with streaming query") if verbose else None
 
-
-    # if not zarr, proceed as normal
-    endpoint = "".join(["/v1/datasets/", dataset_id, "/streamflow"])
+    # if not zarr, fix query_params then proceed as normal
     query_params = {k: v for k, v in query_params.items() if v is not None}
+    if full_dataset:
+        query_params['mode'] = est_resp.content['recommended_mode']
+        query_params['query_mode'] = est_resp.content['query_mode']
+        query_params['lead_min'] = est_resp.content['lead_min']
+        query_params['lead_max'] = est_resp.content['lead_max']
+        if query_params['issue_time'] == "latest":
+            query_params['issue_time'] = est_resp.content['latest_issue_time']
+    endpoint = "".join(["/v1/datasets/", dataset_id, "/streamflow"])
     resp = flowfabric_post(endpoint, body=query_params, verbose=verbose)
 
     # parse based on content type of output
@@ -205,10 +212,7 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
         raise RuntimeError(f"Unsupported content type: {content_type}")
 
 # estimate size of streamflow data
-def flowfabric_streamflow_estimate(dataset_id, feature_ids=None, start_time=None, end_time=None, issue_time=None, params=None, token=None, verbose=False, **kwargs):
-    if token is None:
-        print("No token provided, using token from get_bearer_token().") if verbose else None
-        token = get_bearer_token()
+def flowfabric_streamflow_estimate(dataset_id, feature_ids=None, start_time=None, end_time=None, issue_time=None, params=None, verbose=False, **kwargs):
     if params is not None:
         query_params = dict(params)
     else:
@@ -228,55 +232,57 @@ def flowfabric_streamflow_estimate(dataset_id, feature_ids=None, start_time=None
     return resp.json()
 
 # query ratings
-def flowfabric_ratings_query(feature_ids, type="rem", format="arrow", token=None, verbose=False, **kwargs):
-    if token is None:
-        print("No token provided, using token from get_bearer_token().") if verbose else None
-        token = get_bearer_token()
+def flowfabric_ratings_query(feature_ids, type="rem", format="arrow", verbose=False, **kwargs):
     params = dict(feature_ids=feature_ids, type=type, format=format)
     if kwargs:
         params.update(kwargs)
     resp = flowfabric_post("/v1/ratings", body=params, verbose=verbose)
     if format == "arrow":
         print("[flowfabric_ratings_query] Parsing response as Arrow IPC stream.") if verbose else None
-        resp_raw = resp.raw.read()
-        return polars.read_ipc_stream(resp_raw)
+        return polars.read_ipc_stream(resp.content)
     else:
         print("[flowfabric_ratings_query] Parsing response as JSON.") if verbose else None
         return resp.json()
 
 # estimate size of ratings query data
-def flowfabric_ratings_estimate(feature_ids, type="rem", format="json", token=None, verbose=False, **kwargs):
-    if token is None:
-        print("No token provided, using token from get_bearer_token().") if verbose else None
-        token = get_bearer_token()
+def flowfabric_ratings_estimate(feature_ids, type="rem", format="json", verbose=False, **kwargs):
     params = dict(feature_ids=feature_ids, type=type, format=format)
     if kwargs:
         params.update(kwargs)
     resp = flowfabric_post("/v1/ratings?estimate=TRUE", body=params, verbose=verbose)
-    return resp.json()
+    if format == "arrow":
+        print("[flowfabric_ratings_estimate] Parsing response as Arrow IPC stream.") if verbose else None
+        return polars.read_ipc_stream(resp.content)
+    else:
+        print("[flowfabric_ratings_estimate] Parsing response as JSON.") if verbose else None
+        return resp.json()
 
 # query stage
-def flowfabric_stage_query(dataset_id, params=None, token=None, verbose=False, **kwargs):
-    if token is None:
-        print("No token provided, using token from get_bearer_token().") if verbose else None
-        token = get_bearer_token()
+def flowfabric_stage_query(dataset_id, params=None, verbose=False, **kwargs):
     if params is None:
         params = dict(kwargs)
     if params is None:
         params = auto_streamflow_params(dataset_id)
     params['dataset_id'] = dataset_id
     resp = flowfabric_post("/v1/stage", body=params, verbose=verbose)
-    print(resp)
-    print(resp.content)
-    return polars.read_ipc_stream(resp.content)
+    resp_header = resp.headers.get('Content-Type')
+    if resp_header == "application/vnd.apache.arrow.stream":
+        print("[flowfabric_ratings_estimate] Parsing response as Arrow IPC stream.") if verbose else None
+        return polars.read_ipc_stream(resp.content)
+    else:
+        print("[flowfabric_ratings_estimate] Parsing response as JSON.") if verbose else None
+        return resp.json()
 
 # query inundation polygon grid IDs
-def flowfabric_inundation_ids(params=list, token=None, verbose=False):
-    if token is None:
-        print("No token provided, using token from get_bearer_token().") if verbose else None
-        token = get_bearer_token()
+def flowfabric_inundation_ids(params=list, verbose=False):
     resp = flowfabric_post("/v1/inundation-ids", body=params, verbose=verbose)
-    return resp.json()
+    resp_header = resp.headers.get('Content-Type')
+    if resp_header == "application/vnd.apache.arrow.stream":
+        print("[flowfabric_ratings_estimate] Parsing response as Arrow IPC stream.") if verbose else None
+        return polars.read_ipc_stream(resp.content)
+    else:
+        print("[flowfabric_ratings_estimate] Parsing response as JSON.") if verbose else None
+        return resp.json()
 
 # health check
 def flowfabric_healthz(token=None, verbose=False):
@@ -314,7 +320,7 @@ def normalize_time(obj, is_start=True):
 # helper function to detect zarr
 def is_zarr_dataset(meta):
     return (
-        meta.get("storage_type") == "zarr"
-        or meta.get("config", {}).get("format") == "zarr"
-        or meta.get("storage", {}).get("type") == "zarr"
+        meta[0].get("storage_type") == "zarr"
+        or meta[0].get("config", {}).get("format") == "zarr"
+        or meta[0].get("storage", {}).get("type") == "zarr"
     )
