@@ -1,3 +1,3 @@
-docs/* linguist-documentation
-site/* linguist-documentation
+docs/ -linguist-detectable
+site/ -linguist-detectable
 mkdocs.yml linguist-documentation
