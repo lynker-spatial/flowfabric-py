@@ -1,0 +1,3 @@
+docs/* linguist-documentation
+site/* linguist-documentation
+mkdocs.yml linguist-documentation
