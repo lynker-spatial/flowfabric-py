@@ -4,6 +4,7 @@ import time
 import pyarrow.parquet as pq
 import polars
 import io
+import matplotlib.pyplot as plt
 
 from flowfabric_py import auto_streamflow_params
 from flowfabric_py.flowfabric_http import flowfabric_post, flowfabric_get
@@ -12,7 +13,6 @@ from flowfabric_py.client import (
     flowfabric_list_datasets,
     flowfabric_get_dataset,
     flowfabric_get_latest_run,
-    flowfabric_get_run,
     flowfabric_streamflow_query,
     flowfabric_streamflow_estimate,
     flowfabric_ratings_query,
@@ -26,15 +26,15 @@ start_time = time.perf_counter()
 
 #print(flowfabric_get("/v1/datasets/"))
 
-params = {
-    "query_mode": "run",
-    "feature_ids": ["101", "1001"],
-    "issue_time": "latest",
-    "scope": "features",
-    "lead_start": 0,
-    "lead_end": 0,
-    "format": "arrow",
-}
+#params = {
+#    "query_mode": "run",
+#"feature_ids": ["101", "1001"],
+#    "issue_time": "latest",
+#    "scope": "features",
+#    "lead_start": 0,
+#    "lead_end": 0,
+#    "format": "arrow",
+#}
 
 #datasets = [dataset for dataset in flowfabric_list_datasets()]
 
@@ -50,7 +50,7 @@ params = {
 
 #print(flowfabric_get_token(force_refresh=True))
 
-#print(flowfabric_get_dataset("usgs_nwis_stage"))
+#print(flowfabric_get_dataset("awi_nrds_analysis"))
 
 #print(flowfabric_get_latest_run("nws_owp_nwm_analysis"))
 
@@ -58,7 +58,7 @@ params = {
 
 #print(flowfabric_healthz())
 
-print(flowfabric_refresh_token())
+#print(flowfabric_refresh_token())
 
 #print(flowfabric_stage_query("usgs_nwis_stage", params=params))
 
@@ -90,5 +90,13 @@ print(flowfabric_refresh_token())
 
 #print(flowfabric_get_token())
 
+ratings_101 = flowfabric_ratings_query(
+    feature_ids = ["101"],
+    type = "rem"
+)
+
+plt.plot(ratings_101['discharge'], ratings_101['stage'], color="blue")
+plt.show()
+
 end_time = time.perf_counter()
-#print(end_time - start_time)
+print(end_time - start_time)

@@ -73,3 +73,4 @@ healthz = flowfabric_healthz(token = token)
 ## Learn More
 - See the vignettes for advanced usage, authentication, and custom queries.
 - All API responses are Arrow tables for high-performance analytics.
+

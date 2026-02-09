@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Flowfabricpy - Python Client for FlowFabric API</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">Flowfabricpy - Python Client for FlowFabric API</a>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#flowfabricpy-effortless-python-access-to-flowfabric-api" class="nav-link">flowfabricpy: Effortless Python Access to FlowFabric API</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#key-features" class="nav-link">Key Features</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#installation" class="nav-link">Installation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#quick-start" class="nav-link">Quick Start</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#authentication-token-caching" class="nav-link">Authentication &amp; Token Caching</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#troubleshooting" class="nav-link">Troubleshooting</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#learn-more" class="nav-link">Learn More</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="flowfabricpy-effortless-python-access-to-flowfabric-api">flowfabricpy: Effortless Python Access to FlowFabric API</h1>
+<p><code>flowfabricpy</code> is a powerful Python client for the FlowFabric API, providing seamless access to hydrologic forecasts, reanalysis, rating curves, and datasets. With robust authentication and automatic token caching, you can focus on data science, not on data munging plumbing.</p>
+<h2 id="key-features">Key Features</h2>
+<ul>
+<li><strong>Evolving catalog</strong> of harmonized data from multiple models</li>
+<li><strong>Single method access</strong> to all models - both retrospective and forecast</li>
+<li><strong>One-time authentication</strong>: Log in once, and your token is cached for future use.</li>
+<li><strong>Arrow IPC support</strong>: Fast, memory-efficient data transfer</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<pre><code class="language-py">#  Install from GitHub:
+pip install git+https://github.com/plinza01/flowfabric-py#egg=flowfabricpy
+</code></pre>
+<h2 id="quick-start">Quick Start</h2>
+<pre><code class="language-py"># 1. List available datasets
+datasets = flowfabric_list_datasets()
+print(datasets)
+
+# 2. Query streamflow forecast (first call prompts login, then caches token)
+# More on atuhentication below ...
+tbl = flowfabric_streamflow_query(
+    dataset_id = &quot;nws_owp_nwm_analysis&quot;,
+    feature_ids = [&quot;101&quot;, &quot;1001&quot;],
+    issue_time = &quot;latest&quot;
+)
+print(tbl)
+
+# 3. Query streamflow reanalysis data
+tbl_re = flowfabric_streamflow_query(
+  &quot;nws_owp_nwm_reanalysis_3_0&quot;,
+  feature_ids = [&quot;101&quot;, &quot;1001&quot;],
+  start_time = &quot;2018-01-01&quot;,
+  end_time = &quot;2018-01-31&quot;
+)
+print(tbl_re)
+
+# 4. Query ratings
+ratings &lt;- flowfabric_ratings_query(
+    feature_ids = c(&quot;101&quot;, &quot;1001&quot;), 
+    type = &quot;rem&quot;
+)
+print(ratings)
+</code></pre>
+<h2 id="authentication-token-caching">Authentication &amp; Token Caching</h2>
+<p>Using this platform requires authentication via the Lynker Spatial Portal. Accounts are free to set up and use. If use exceeds costs we can burden we will reach out to power users to better understand how we can help.</p>
+<p>To get access, users can create an account here: https://proxy.lynker-spatial.com/</p>
+<p>The first API call will prompt you to log in via browser. Your token is then cached and reused for all future calls—no repeated browser prompts!</p>
+<p><strong>Manual token refresh:</strong></p>
+<pre><code class="language-py">flowfabric_refresh_token() # Forces re-authentication and updates cached token
+</code></pre>
+<p><strong>Advanced:</strong>
+You can always pass a token explicitly:</p>
+<pre><code class="language-py">token = flowfabric_get_token()['id_token']
+healthz = flowfabric_healthz(token = token)
+</code></pre>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<ul>
+<li>If you see repeated browser prompts, call <code>flowfabric_refresh_token()</code> once, then retry your queries.</li>
+<li>If you switch users, manually refresh the token.</li>
+<li>Use <code>verbose = TRUE</code> in any endpoint for detailed debug output.</li>
+</ul>
+<h2 id="learn-more">Learn More</h2>
+<ul>
+<li>See the vignettes for advanced usage, authentication, and custom queries.</li>
+<li>All API responses are Arrow tables for high-performance analytics.</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-02-09 20:01:15.980321+00:00
+-->

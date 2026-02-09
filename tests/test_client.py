@@ -3,7 +3,6 @@ from flowfabric_py.client import (
     flowfabric_list_datasets,
     flowfabric_get_dataset,
     flowfabric_get_latest_run,
-    flowfabric_get_run,
     flowfabric_streamflow_query,
     flowfabric_streamflow_estimate,
     flowfabric_ratings_query,
@@ -29,11 +28,6 @@ class MyTestCase(unittest.TestCase):
     # tests if flowfabric_get_latest_run() returns a dict
     def test_flowfabric_get_latest_run(self):
         run = flowfabric_get_latest_run("nws_owp_nwm_analysis")
-        self.assertIsInstance(run, dict)
-
-    # tests if flowfabric_get_run() returns a dict
-    def test_flowfabric_get_run(self):
-        run = flowfabric_get_run("nws_owp_nwm_analysis", issue_time="latest")
         self.assertIsInstance(run, dict)
 
     # test if flowfabric_streamflow_estimate returns a dict

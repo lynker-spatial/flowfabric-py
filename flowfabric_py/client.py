@@ -25,20 +25,12 @@ def flowfabric_list_datasets():
 
 # return a specific dataset
 def flowfabric_get_dataset(dataset_id, verbose=False):
-    endpoint = "".join(["/v1/datasets/", dataset_id])
-    resp = flowfabric_get(endpoint, verbose=verbose)
-    return resp.json() # might need to be resp.content.json()
+    resp = requests.get(f"https://flowfabric.lynker-spatial.com/{dataset_id}")
+    return resp.json()
 
 # get latest run for a specific dataset
 def flowfabric_get_latest_run(dataset_id, verbose=False):
-    endpoint = "".join(["/v1/datasets/", dataset_id, "/runs/latest"])
-    resp = flowfabric_get(endpoint, verbose=verbose)
-    return resp.json()
-
-# get a specific run for a specified dataset
-def flowfabric_get_run(dataset_id, issue_time, verbose=False):
-    endpoint = "".join(["/v1/datasets/", dataset_id, "/runs/", issue_time])
-    resp = flowfabric_get(endpoint, verbose=verbose)
+    resp = flowfabric_streamflow_query(dataset_id, issue_time="latest", verbose=verbose)
     return resp.json()
 
 # query streamflow
@@ -54,7 +46,7 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
         query_params['issue_time'] = normalize_time(issue_time) if issue_time is not None else None
         auto_params = auto_streamflow_params(dataset_id)
         for name in auto_params:
-            query_params[name] = auto_params[name] if name in auto_params else query_params[name] if name in query_params else None
+            query_params[name] = query_params[name] if name in query_params else auto_params[name] if name in auto_params else None
         if len(query_params) == 0:
             query_params = auto_params
 
@@ -74,6 +66,7 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
     full_dataset = (
             query_params.get("scope") == "all"
             and query_params.get("query_mode") == "run"
+            and "feature_ids" not in query_params
     )
     if not is_zarr:
         if full_dataset:
@@ -147,6 +140,8 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
         query_params['lead_max'] = est_resp.content['lead_max']
         if query_params['issue_time'] == "latest":
             query_params['issue_time'] = est_resp.content['latest_issue_time']
+    if not full_dataset and "feature_ids" in query_params and "scope" in query_params:
+        query_params['scope'] = "features"
     endpoint = "".join(["/v1/datasets/", dataset_id, "/streamflow"])
     resp = flowfabric_post(endpoint, body=query_params, verbose=verbose)
 
@@ -176,24 +171,12 @@ def flowfabric_streamflow_query(dataset_id, feature_ids=None, start_time=None, e
                         print("[flowfabric_streamflow_query] Detected base64-encoded Arrow in JSON 'data' field.") if verbose else None
                         arrow_bin = base64.b64decode(to_json["data"])
                         tbl = polars.read_ipc_stream(arrow_bin)
-                        if 'time' in tbl.columns:
-                            tbl = tbl.with_columns(
-                                polars.col("time")
-                                .str.strptime(polars.Datetime, "%Y-%m-%d %H:%M:%S")
-                                .dt.replace_time_zone("UTC")
-                            )
                         return tbl
                     else:
                         raise RuntimeError("JSON response does not contain 'data' field for Arrow stream.")
                 else:
                     # try to parse as Arrow binary
                     try:
-                        if 'time' in ipc_resp.columns:
-                            ipc_resp = ipc_resp.with_columns(
-                                polars.col("time")
-                                .str.strptime(polars.Datetime, "%Y-%m-%d %H:%M:%S")
-                                .dt.replace_time_zone("UTC")
-                            )
                         return ipc_resp
                     except Exception as e:
                         raise RuntimeError(f"flowfabric_streamflow_query: Error reading Arrow IPC stream - {e}")
@@ -224,7 +207,7 @@ def flowfabric_streamflow_estimate(dataset_id, feature_ids=None, start_time=None
         query_params['issue_time'] = normalize_time(issue_time) if issue_time is not None else None
         auto_params = auto_streamflow_params(dataset_id)
         for name in auto_params:
-            query_params[name] = auto_params[name] if name in auto_params else query_params[name] if name in query_params else None
+            query_params[name] = query_params[name] if name in query_params else auto_params[name] if name in auto_params else None
         if len(query_params) == 0:
             query_params = auto_params
     endpoint = "".join(["/v1/datasets/", dataset_id, "/streamflow?estimate=TRUE"])
