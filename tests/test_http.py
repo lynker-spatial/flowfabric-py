@@ -1,6 +1,6 @@
 # test_http.py
 import unittest
-from flowfabric_py.flowfabric_http import flowfabric_get, flowfabric_post
+from src.flowfabricpy.flowfabric_http import flowfabric_get, flowfabric_post
 
 class MyTestCase(unittest.TestCase):
 

@@ -1,5 +1,5 @@
 import unittest
-from flowfabric_py.catalog_utils import auto_streamflow_params
+from src.flowfabricpy.catalog_utils import auto_streamflow_params
 
 class MyTestCase(unittest.TestCase):
     # test auto_streamflow_params() comes back with a dictionary

@@ -40,7 +40,7 @@ print(tbl_re)
 
 # 4. Query ratings
 ratings <- flowfabric_ratings_query(
-    feature_ids = c("101", "1001"), 
+    feature_ids = ["101", "1001"], 
     type = "rem"
 )
 print(ratings)

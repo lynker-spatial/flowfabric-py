@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Using flowfabricpy &#8212; flowfabricpy 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Advanced Usage of flowfabricpy" href="advanced.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="using-flowfabricpy">
+<h1>Using flowfabricpy<a class="headerlink" href="#using-flowfabricpy" title="Link to this heading">¶</a></h1>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>To use flowfabricpy, first install it using pip:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install git+https://github.com/plinza01/flowfabric-py#egg=flowfabricpy</span>
+</pre></div>
+</div>
+</section>
+<section id="core-functions">
+<h2>Core Functions<a class="headerlink" href="#core-functions" title="Link to this heading">¶</a></h2>
+<p>Core functions for interacting with the FlowFabric API:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_list_datasets">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_list_datasets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_list_datasets" title="Link to this definition">¶</a></dt>
+<dd><p>List all available datasets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list containing all the available datasets (each in JSON format)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_get_dataset">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_get_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_get_dataset" title="Link to this definition">¶</a></dt>
+<dd><p>Get information on a specific dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dataset_id</strong> (<em>str</em>) – The id of the dataset</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Metadata for the dataset in JSON format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_get_latest_run">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_get_latest_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_get_latest_run" title="Link to this definition">¶</a></dt>
+<dd><p>Get the latest run from a dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>str</em>) – The id of the dataset</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) Provides extra information for debugging</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The latest run for the dataset in a DataTable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_streamflow_query">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_streamflow_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">issue_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_streamflow_query" title="Link to this definition">¶</a></dt>
+<dd><p>Query streamflow for a dataset using given or auto-generated parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>str</em>) – The id of the dataset</p></li>
+<li><p><strong>feature_ids</strong> (<em>list</em><em> or </em><em>None</em>) – (Optional) The id(s) of the desired features</p></li>
+<li><p><strong>start_time</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) The start time for the streamflow query</p></li>
+<li><p><strong>end_time</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) The end time for the streamflow query</p></li>
+<li><p><strong>issue_time</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) The issue time for the streamflow query</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em> or </em><em>None</em>) – (Optional) A list of parameters for the streamflow query</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) Provides extra information for debugging</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Streamflow data from a dataset matching the parameters given/generated</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_streamflow_estimate">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_streamflow_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">issue_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_streamflow_estimate" title="Link to this definition">¶</a></dt>
+<dd><p>Estimate size of streamflow data for a dataset using given or auto-generated parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>str</em>) – The id of the dataset</p></li>
+<li><p><strong>feature_ids</strong> (<em>list</em><em> or </em><em>None</em>) – (Optional) The id(s) of the desired features</p></li>
+<li><p><strong>start_time</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) The start time for the streamflow query</p></li>
+<li><p><strong>end_time</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) The end time for the streamflow query</p></li>
+<li><p><strong>issue_time</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) The issue time for the streamflow query</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em> or </em><em>None</em>) – (Optional) A list of parameters for the streamflow query</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) Provides extra information for debugging</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A JSON object containing estimates on streamflow query matching the parameters given/generated</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_ratings_query">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_ratings_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rem'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'arrow'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_ratings_query" title="Link to this definition">¶</a></dt>
+<dd><p>Query REM ratings (stage-discharge relationship)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>feature_ids</strong> (<em>list</em>) – The id(s) of the desired features</p></li>
+<li><p><strong>type</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) The type of the ratings</p></li>
+<li><p><strong>format</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) The format of the ratings</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) Provides extra information for debugging</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A response (parsed based on format) containing the REM ratings for given features</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_ratings_estimate">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_ratings_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rem'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'arrow'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_ratings_estimate" title="Link to this definition">¶</a></dt>
+<dd><p>Estimate size of REM ratings data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>feature_ids</strong> (<em>list</em>) – The id(s) of the desired features</p></li>
+<li><p><strong>type</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) The type of the ratings</p></li>
+<li><p><strong>format</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) The format of the ratings</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) Provides extra information for debugging</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An estimate of REM ratings data size for given features</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_stage_query">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_stage_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_stage_query" title="Link to this definition">¶</a></dt>
+<dd><p>Query stage data (Arrow IPC)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>str</em>) – The id of the dataset</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em> or </em><em>None</em>) – (Optional) A list of parameters for the streamflow query</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) Provides extra information for debugging</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Stage data for the given dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_inundation_ids">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_inundation_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_inundation_ids" title="Link to this definition">¶</a></dt>
+<dd><p>Return inundation polygon grid ids</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> (<em>dict</em>) – A list of parameters for the streamflow query</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) Provides extra information for debugging</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>inundation polygon grid ids</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_healthz">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_healthz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_healthz" title="Link to this definition">¶</a></dt>
+<dd><p>Return health status of the API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) JWT bearer token</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) Provides extra information for debugging</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Health metadata for the API</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.get_bearer_token">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">get_bearer_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_refresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.get_bearer_token" title="Link to this definition">¶</a></dt>
+<dd><p>Get a JWT bearer token</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>force_refresh</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) Force refresh cached token</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JWT bearer token</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="catalog-utilities">
+<h2>Catalog Utilities<a class="headerlink" href="#catalog-utilities" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.auto_streamflow_params">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">auto_streamflow_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.auto_streamflow_params" title="Link to this definition">¶</a></dt>
+<dd><p>Auto-generate streamflow parameters for a given dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dataset_id</strong> (<em>str</em>) – The id of the dataset</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing the recommended streamflow parameters</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="http-utilities">
+<h2>HTTP Utilities<a class="headerlink" href="#http-utilities" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_get">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_get" title="Link to this definition">¶</a></dt>
+<dd><p>HTTP GET request using the flowfabric API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> (<em>str</em>) – The endpoint for the GET request</p></li>
+<li><p><strong>token</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) JWT bearer token</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) Provides extra information for debugging</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A response object containing information from the specified endpoint</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_post">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_post" title="Link to this definition">¶</a></dt>
+<dd><p>HTTP POST request using the flowfabric API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> (<em>str</em>) – The endpoint for the POST request</p></li>
+<li><p><strong>body</strong> (<em>dict</em>) – The body of the POST request</p></li>
+<li><p><strong>token</strong> (<em>str</em><em> or </em><em>None</em>) – (Optional) JWT bearer token</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) Provides extra information for debugging</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A response object containing information from the specified endpoint</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="auth-utilities">
+<h2>Auth Utilities<a class="headerlink" href="#auth-utilities" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_get_token">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_get_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_refresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_get_token" title="Link to this definition">¶</a></dt>
+<dd><p>Get and cache an authentication token</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>force_refresh</strong> (<em>bool</em><em> or </em><em>None</em>) – (Optional) force refresh token</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The cached authentication token</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flowfabricpy.flowfabric_refresh_token">
+<span class="sig-prename descclassname"><span class="pre">flowfabricpy.</span></span><span class="sig-name descname"><span class="pre">flowfabric_refresh_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flowfabricpy.flowfabric_refresh_token" title="Link to this definition">¶</a></dt>
+<dd><p>Force refresh the cached token</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The new token</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">flowfabricpy</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication with flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage of flowfabricpy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using flowfabricpy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-functions">Core Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#catalog-utilities">Catalog Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#http-utilities">HTTP Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#auth-utilities">Auth Utilities</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="advanced.html" title="previous chapter">Advanced Usage of flowfabricpy</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2026, Lynker.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/usage.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

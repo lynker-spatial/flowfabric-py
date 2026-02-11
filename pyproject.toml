@@ -10,4 +10,4 @@ dependencies = ["requests"]
 description = "Python client for Flowfabric"
 readme = "README.md"
 license = "MIT"
-authors = [{name = "Paul Linza", email = "plinza@lynker.com"}]
+authors = [{name = "Paul Linza", email = "plinza@lynker.com"}, {name = "Mike Johnson", email = "mjohnson@lynker.com"}]

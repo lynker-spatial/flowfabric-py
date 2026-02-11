@@ -1,5 +1,5 @@
 import unittest
-from flowfabric_py.auth import flowfabric_get_token
+from src.flowfabricpy.auth import flowfabric_get_token
 
 class MyTestCase(unittest.TestCase):
     # tests that flowfabric_get_token() returns a dict
