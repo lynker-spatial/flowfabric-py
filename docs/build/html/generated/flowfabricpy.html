@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>flowfabricpy &#8212; flowfabricpy 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="flowfabricpy.auth" href="flowfabricpy.auth.html" />
+    <link rel="prev" title="flowfabricpy: Effortless Python Access to FlowFabric API" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-flowfabricpy">
+<span id="flowfabricpy"></span><h1>flowfabricpy<a class="headerlink" href="#module-flowfabricpy" title="Link to this heading">¶</a></h1>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.auto_streamflow_params" title="flowfabricpy.auto_streamflow_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_streamflow_params</span></code></a>(dataset_id)</p></td>
+<td><p>Auto-generate streamflow parameters for a given dataset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_get" title="flowfabricpy.flowfabric_get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_get</span></code></a>(endpoint[, token, verbose])</p></td>
+<td><p>HTTP GET request using the flowfabric API</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_get_dataset" title="flowfabricpy.flowfabric_get_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_get_dataset</span></code></a>(dataset_id)</p></td>
+<td><p>Get information on a specific dataset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_get_latest_run" title="flowfabricpy.flowfabric_get_latest_run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_get_latest_run</span></code></a>(dataset_id[, verbose])</p></td>
+<td><p>Get the latest run from a dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_get_token" title="flowfabricpy.flowfabric_get_token"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_get_token</span></code></a>([force_refresh])</p></td>
+<td><p>Get and cache an authentication token</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_healthz" title="flowfabricpy.flowfabric_healthz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_healthz</span></code></a>([token, verbose])</p></td>
+<td><p>Return health status of the API</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_inundation_ids" title="flowfabricpy.flowfabric_inundation_ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_inundation_ids</span></code></a>([params, verbose])</p></td>
+<td><p>Return inundation polygon grid ids</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_list_datasets" title="flowfabricpy.flowfabric_list_datasets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_list_datasets</span></code></a>()</p></td>
+<td><p>List all available datasets</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_post" title="flowfabricpy.flowfabric_post"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_post</span></code></a>(endpoint, body[, token, verbose])</p></td>
+<td><p>HTTP POST request using the flowfabric API</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_ratings_estimate" title="flowfabricpy.flowfabric_ratings_estimate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_ratings_estimate</span></code></a>(feature_ids[, ...])</p></td>
+<td><p>Estimate size of REM ratings data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_ratings_query" title="flowfabricpy.flowfabric_ratings_query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_ratings_query</span></code></a>(feature_ids[, ...])</p></td>
+<td><p>Query REM ratings (stage-discharge relationship)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_refresh_token" title="flowfabricpy.flowfabric_refresh_token"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_refresh_token</span></code></a>()</p></td>
+<td><p>Force refresh the cached token</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_stage_query" title="flowfabricpy.flowfabric_stage_query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_stage_query</span></code></a>(dataset_id[, params, ...])</p></td>
+<td><p>Query stage data (Arrow IPC)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_streamflow_estimate" title="flowfabricpy.flowfabric_streamflow_estimate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_streamflow_estimate</span></code></a>(dataset_id[, ...])</p></td>
+<td><p>Estimate size of streamflow data for a dataset using given or auto-generated parameters</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.flowfabric_streamflow_query" title="flowfabricpy.flowfabric_streamflow_query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_streamflow_query</span></code></a>(dataset_id[, ...])</p></td>
+<td><p>Query streamflow for a dataset using given or auto-generated parameters</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#flowfabricpy.get_bearer_token" title="flowfabricpy.get_bearer_token"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_bearer_token</span></code></a>([force_refresh])</p></td>
+<td><p>Get a JWT bearer token</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Modules</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="flowfabricpy.auth.html#module-flowfabricpy.auth" title="flowfabricpy.auth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auth</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="flowfabricpy.catalog_utils.html#module-flowfabricpy.catalog_utils" title="flowfabricpy.catalog_utils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">catalog_utils</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="flowfabricpy.client.html#module-flowfabricpy.client" title="flowfabricpy.client"><code class="xref py py-obj docutils literal notranslate"><span class="pre">client</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="flowfabricpy.flowfabric_http.html#module-flowfabricpy.flowfabric_http" title="flowfabricpy.flowfabric_http"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_http</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">flowfabricpy</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">flowfabricpy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flowfabricpy.auth.html">flowfabricpy.auth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flowfabricpy.catalog_utils.html">flowfabricpy.catalog_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flowfabricpy.client.html">flowfabricpy.client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flowfabricpy.flowfabric_http.html">flowfabricpy.flowfabric_http</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started with flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication.html">Authentication with flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced Usage of flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Function Details</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">flowfabricpy: Effortless Python Access to FlowFabric API</a></li>
+      <li>Next: <a href="flowfabricpy.auth.html" title="next chapter">flowfabricpy.auth</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2026, Lynker.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/generated/flowfabricpy.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

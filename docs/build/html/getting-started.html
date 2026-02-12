@@ -15,7 +15,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Authentication with flowfabricpy" href="authentication.html" />
-    <link rel="prev" title="flowfabricpy: Effortless Python Access to FlowFabric API" href="index.html" />
+    <link rel="prev" title="flowfabricpy.flowfabric_http" href="generated/flowfabricpy.flowfabric_http.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -40,6 +40,68 @@
 <p><cite>flowfabricpy</cite> provides a high-performance Python interface to the FlowFabric
 REST API, including JWT authentication. This vignette demonstrates basic
 usage for expert Python users.</p>
+</section>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Link to this heading">¶</a></h2>
+<p>Authentication uses a Bearer token. By default, <cite>flowfabricpy</cite> manages
+your token in the background using
+<code class="xref py py-func docutils literal notranslate"><span class="pre">flowfabric_get_token()</span></code>. You can also
+set or override the token explicitly for any function call.</p>
+</section>
+<section id="background-global-token">
+<h2>Background (global) token<a class="headerlink" href="#background-global-token" title="Link to this heading">¶</a></h2>
+<p>Authenticate once per session:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">is_interactive</span><span class="p">:</span>
+    <span class="c1"># This will obtain and cache a token for all API calls</span>
+    <span class="n">flowfabric_get_token</span><span class="p">()</span>  <span class="c1"># triggers login if needed</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Skipping authentication: not running interactively.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1">## Skipping authentication: not running interactively.</span>
+</pre></div>
+</div>
+</section>
+<section id="explicit-token-usage">
+<h2>Explicit token usage<a class="headerlink" href="#explicit-token-usage" title="Link to this heading">¶</a></h2>
+<p>You can pass a token directly to some functions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">is_interactive</span><span class="p">:</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">flowfabric_get_token</span><span class="p">()</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="n">flowfabric_list_datasets</span><span class="p">(</span><span class="n">token</span> <span class="o">=</span> <span class="n">token</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Skipping dataset listing: not running interactively.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1">## Skipping dataset listing: not running interactively.</span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="authentication.html"><span class="doc">Authentication with flowfabricpy</span></a> vignette for more details.</p>
+</section>
+<section id="list-datasets">
+<h2>List Datasets<a class="headerlink" href="#list-datasets" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">datasets</span> <span class="o">=</span> <span class="n">flowfabric_list_datasets</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="estimate-query-cost">
+<h2>Estimate Query Cost<a class="headerlink" href="#estimate-query-cost" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">est</span> <span class="o">=</span> <span class="n">flowfabric_streamflow_estimate</span><span class="p">(</span>
+    <span class="n">dataset_id</span> <span class="o">=</span> <span class="s2">&quot;nws_owp_nwm_analysis&quot;</span><span class="p">,</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;issue_time&quot;</span><span class="p">:</span> <span class="s2">&quot;latest&quot;</span><span class="p">,</span> <span class="s2">&quot;scope&quot;</span><span class="p">:</span> <span class="s2">&quot;features&quot;</span><span class="p">,</span> <span class="s2">&quot;feature_ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;101&quot;</span><span class="p">]}</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">est</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="query-streamflow-data">
+<h2>Query Streamflow Data<a class="headerlink" href="#query-streamflow-data" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="n">flowfabric_streamflow_query</span><span class="p">(</span>
+    <span class="n">dataset_id</span> <span class="o">=</span> <span class="s2">&quot;nws_owp_nwm_analysis&quot;</span><span class="p">,</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;issue_time&quot;</span><span class="p">:</span> <span class="s2">&quot;latest&quot;</span><span class="p">,</span> <span class="s2">&quot;scope&quot;</span><span class="p">:</span> <span class="s2">&quot;features&quot;</span><span class="p">,</span> <span class="s2">&quot;feature_ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;101&quot;</span><span class="p">]}</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -70,20 +132,27 @@ usage for expert Python users.</p>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="generated/flowfabricpy.html">flowfabricpy</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started with flowfabricpy</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#background-global-token">Background (global) token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#explicit-token-usage">Explicit token usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-datasets">List Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#estimate-query-cost">Estimate Query Cost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#query-streamflow-data">Query Streamflow Data</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication with flowfabricpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage of flowfabricpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Using flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Function Details</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">flowfabricpy: Effortless Python Access to FlowFabric API</a></li>
+      <li>Previous: <a href="generated/flowfabricpy.flowfabric_http.html" title="previous chapter">flowfabricpy.flowfabric_http</a></li>
       <li>Next: <a href="authentication.html" title="next chapter">Authentication with flowfabricpy</a></li>
   </ul></li>
 </ul>

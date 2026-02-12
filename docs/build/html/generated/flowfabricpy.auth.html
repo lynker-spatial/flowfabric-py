@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>flowfabricpy.auth &#8212; flowfabricpy 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="flowfabricpy.catalog_utils" href="flowfabricpy.catalog_utils.html" />
+    <link rel="prev" title="flowfabricpy" href="flowfabricpy.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-flowfabricpy.auth">
+<span id="flowfabricpy-auth"></span><h1>flowfabricpy.auth<a class="headerlink" href="#module-flowfabricpy.auth" title="Link to this heading">¶</a></h1>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_get_token</span></code>([force_refresh])</p></td>
+<td><p>Get and cache an authentication token</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">flowfabric_refresh_token</span></code>()</p></td>
+<td><p>Force refresh the cached token</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_token</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_qs</span></code>(qs[, keep_blank_values, ...])</p></td>
+<td><p>Parse a query given as a string argument.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_token</span></code>(token)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">token_is_valid</span></code>(token)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">urlparse</span></code>(url[, scheme, allow_fragments])</p></td>
+<td><p>Parse a URL into 6 components: &lt;scheme&gt;://&lt;netloc&gt;/&lt;path&gt;;&lt;params&gt;?&lt;query&gt;#&lt;fragment&gt;</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseHTTPRequestHandler</span></code>(request, ...)</p></td>
+<td><p>HTTP request handler base class.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">HTTPServer</span></code>(server_address, RequestHandlerClass)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Lock</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">OAuth2Session</span></code>([client_id, client, ...])</p></td>
+<td><p>Versatile OAuth 2 extension to <code class="xref py py-class docutils literal notranslate"><span class="pre">requests.Session</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">OAuthCallbackHandler</span></code>(request, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Path</span></code>(*args, **kwargs)</p></td>
+<td><p>PurePath subclass that can make system calls.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">flowfabricpy</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="flowfabricpy.html">flowfabricpy</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">flowfabricpy.auth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flowfabricpy.catalog_utils.html">flowfabricpy.catalog_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flowfabricpy.client.html">flowfabricpy.client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flowfabricpy.flowfabric_http.html">flowfabricpy.flowfabric_http</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started with flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication.html">Authentication with flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced Usage of flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Function Details</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="flowfabricpy.html">flowfabricpy</a><ul>
+      <li>Previous: <a href="flowfabricpy.html" title="previous chapter">flowfabricpy</a></li>
+      <li>Next: <a href="flowfabricpy.catalog_utils.html" title="next chapter">flowfabricpy.catalog_utils</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2026, Lynker.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/generated/flowfabricpy.auth.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

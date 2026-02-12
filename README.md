@@ -39,7 +39,7 @@ tbl_re = flowfabric_streamflow_query(
 print(tbl_re)
 
 # 4. Query ratings
-ratings <- flowfabric_ratings_query(
+ratings = flowfabric_ratings_query(
     feature_ids = ["101", "1001"], 
     type = "rem"
 )

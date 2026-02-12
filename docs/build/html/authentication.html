@@ -35,6 +35,61 @@
             
   <section id="authentication-with-flowfabricpy">
 <h1>Authentication with flowfabricpy<a class="headerlink" href="#authentication-with-flowfabricpy" title="Link to this heading">¶</a></h1>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Link to this heading">¶</a></h2>
+<p><cite>flowfabricpy</cite> uses JWT Bearer authentication. By default, it manages
+your token in the background using
+<code class="xref py py-func docutils literal notranslate"><span class="pre">flowfabric_get_token()</span></code>. You can also set or override the
+token explicitly for any function call.</p>
+</section>
+<section id="background-global-token">
+<h2>Background (global) token<a class="headerlink" href="#background-global-token" title="Link to this heading">¶</a></h2>
+<p>Authenticate once per session:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">is_interactive</span><span class="p">:</span>
+    <span class="c1"># This will obtain and cache a token for all API calls</span>
+    <span class="n">flowfabric_get_token</span><span class="p">()</span>  <span class="c1"># triggers login if needed</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Skipping authentication: not running interactively.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1">## Skipping authentication: not running interactively.</span>
+</pre></div>
+</div>
+</section>
+<section id="explicit-token-usage">
+<h2>Explicit token usage<a class="headerlink" href="#explicit-token-usage" title="Link to this heading">¶</a></h2>
+<p>You can pass a token directly to some functions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">is_interactive</span><span class="p">:</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">flowfabric_get_token</span><span class="p">()</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="n">flowfabric_list_datasets</span><span class="p">(</span><span class="n">token</span> <span class="o">=</span> <span class="n">token</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Skipping dataset listing: not running interactively.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1">## Skipping dataset listing: not running interactively.</span>
+</pre></div>
+</div>
+</section>
+<section id="getting-a-token">
+<h2>Getting a Token<a class="headerlink" href="#getting-a-token" title="Link to this heading">¶</a></h2>
+<p>You can use the built-in function to obtain a token interactively:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">is_interactive</span><span class="p">:</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">flowfabric_get_token</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Skipping token retrieval: not running interactively.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1">## Skipping token retrieval: not running interactively.</span>
+</pre></div>
+</div>
+<p>Or pass a token directly to any API function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">datasets</span> <span class="o">=</span> <span class="n">flowfabric_list_datasets</span><span class="p">(</span><span class="n">token</span> <span class="o">=</span> <span class="s2">&quot;YOUR_TOKEN&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="token-refresh">
+<h2>Token Refresh<a class="headerlink" href="#token-refresh" title="Link to this heading">¶</a></h2>
+<p>Tokens are automatically refreshed if expired, using the underlying logic.</p>
+</section>
 </section>
 
 
@@ -64,10 +119,18 @@
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="generated/flowfabricpy.html">flowfabricpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with flowfabricpy</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Authentication with flowfabricpy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Authentication with flowfabricpy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#background-global-token">Background (global) token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#explicit-token-usage">Explicit token usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-a-token">Getting a Token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#token-refresh">Token Refresh</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage of flowfabricpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Using flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Function Details</a></li>
 </ul>
 
 <div class="relations">

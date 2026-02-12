@@ -14,7 +14,7 @@
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Using flowfabricpy" href="usage.html" />
+    <link rel="next" title="Function Details" href="usage.html" />
     <link rel="prev" title="Authentication with flowfabricpy" href="authentication.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -39,6 +39,48 @@
 <h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Link to this heading">¶</a></h2>
 <p>This vignette covers advanced features of <cite>flowfabricpy</cite>, including
 custom HTTP requests, error handling, and working with Arrow IPC data.</p>
+</section>
+<section id="custom-http-requests">
+<h2>Custom HTTP Requests<a class="headerlink" href="#custom-http-requests" title="Link to this heading">¶</a></h2>
+<p>You can use the low-level HTTP helpers for custom endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">is_interactive</span><span class="p">:</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">flowfabric_get</span><span class="p">(</span><span class="s2">&quot;/healthz&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Skipping HTTP request: not running interactively.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1">## Skipping HTTP request: not running interactively.</span>
+</pre></div>
+</div>
+</section>
+<section id="error-handling">
+<h2>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading">¶</a></h2>
+<p>All API errors return a structured JSON error. Use <cite>try…except</cite> to handle
+errors gracefully:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">is_interactive</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">flowfabric_streamflow_query</span><span class="p">(</span><span class="s2">&quot;bad-dataset&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error querying streamflow: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Skipping error handling example: not running interactively.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1">## Skipping error handling example: not running interactively.</span>
+</pre></div>
+</div>
+</section>
+<section id="arrow-ipc-data">
+<h2>Arrow IPC Data<a class="headerlink" href="#arrow-ipc-data" title="Link to this heading">¶</a></h2>
+<p>All data queries return Arrow tables if possible. Convert to other formats as needed:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">is_interactive</span><span class="p">:</span>
+    <span class="n">tbl</span> <span class="o">=</span> <span class="n">flowfabric_streamflow_query</span><span class="p">(</span><span class="s2">&quot;nws_owp_nwm_analysis&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;issue_time&quot;</span><span class="p">:</span> <span class="s2">&quot;latest&quot;</span><span class="p">,</span> <span class="s2">&quot;scope&quot;</span><span class="p">:</span> <span class="s2">&quot;features&quot;</span><span class="p">,</span> <span class="s2">&quot;feature_ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;101&quot;</span><span class="p">]})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">cat</span><span class="p">(</span><span class="s1">&#39;Skipping Arrow IPC example: not running interactively.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1">## Skipping Arrow IPC example: not running interactively.</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -69,13 +111,17 @@ custom HTTP requests, error handling, and working with Arrow IPC data.</p>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="generated/flowfabricpy.html">flowfabricpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with flowfabricpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication with flowfabricpy</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Usage of flowfabricpy</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-usage">Advanced Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-http-requests">Custom HTTP Requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#error-handling">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#arrow-ipc-data">Arrow IPC Data</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Using flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Function Details</a></li>
 </ul>
 
 <div class="relations">
@@ -83,7 +129,7 @@ custom HTTP requests, error handling, and working with Arrow IPC data.</p>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="authentication.html" title="previous chapter">Authentication with flowfabricpy</a></li>
-      <li>Next: <a href="usage.html" title="next chapter">Using flowfabricpy</a></li>
+      <li>Next: <a href="usage.html" title="next chapter">Function Details</a></li>
   </ul></li>
 </ul>
 </div>

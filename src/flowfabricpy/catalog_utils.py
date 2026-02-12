@@ -18,11 +18,15 @@ def auto_streamflow_params(dataset_id):
     datasets = df.to_dict(orient='records')
     data = next((dataset for dataset in datasets if dataset.get("id") == dataset_id), None)
 
+    if data is None:
+        print("[auto_streamflow_params] Error: dataset not found")
+        return None
+
     # determine if it is a reanalysis or not
     is_reanalysis = False
-    if data['query_mode'] is not None and data['query_mode'] == 'absolute':
+    if 'query_mode' in data and data['query_mode'] == 'absolute':
         is_reanalysis = True
-    if data['configuration'] is not None and 'reanalysis' in data['configuration']:
+    if 'configuration' in data and 'reanalysis' in data['configuration']:
         is_reanalysis = True
 
     if is_reanalysis:

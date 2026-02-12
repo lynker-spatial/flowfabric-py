@@ -21,7 +21,10 @@ release = '0.1'
 
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
 ]
+autosummary_generate = True
+autosummary_imported_members = True
 
 templates_path = ['_templates']
 exclude_patterns = []

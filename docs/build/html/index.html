@@ -14,7 +14,7 @@
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Getting Started with flowfabricpy" href="getting-started.html" />
+    <link rel="next" title="flowfabricpy" href="generated/flowfabricpy.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -75,7 +75,7 @@
 <span class="nb">print</span><span class="p">(</span><span class="n">tbl_re</span><span class="p">)</span>
 
 <span class="c1"># 4. Query ratings</span>
-<span class="n">ratings</span> <span class="o">&lt;-</span> <span class="n">flowfabric_ratings_query</span><span class="p">(</span>
+<span class="n">ratings</span> <span class="o">=</span> <span class="n">flowfabric_ratings_query</span><span class="p">(</span>
    <span class="n">feature_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;101&quot;</span><span class="p">,</span> <span class="s2">&quot;1001&quot;</span><span class="p">],</span>
    <span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;rem&quot;</span>
 <span class="p">)</span>
@@ -118,16 +118,39 @@ You can always pass a token explicitly:</p>
 <h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="generated/flowfabricpy.html">flowfabricpy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/flowfabricpy.auth.html">flowfabricpy.auth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/flowfabricpy.catalog_utils.html">flowfabricpy.catalog_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/flowfabricpy.client.html">flowfabricpy.client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/flowfabricpy.flowfabric_http.html">flowfabricpy.flowfabric_http</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with flowfabricpy</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#background-global-token">Background (global) token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#explicit-token-usage">Explicit token usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#list-datasets">List Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#estimate-query-cost">Estimate Query Cost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#query-streamflow-data">Query Streamflow Data</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication with flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication with flowfabricpy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="authentication.html#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authentication.html#background-global-token">Background (global) token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authentication.html#explicit-token-usage">Explicit token usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authentication.html#getting-a-token">Getting a Token</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authentication.html#token-refresh">Token Refresh</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage of flowfabricpy</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="advanced.html#advanced-usage">Advanced Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#custom-http-requests">Custom HTTP Requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#error-handling">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#arrow-ipc-data">Arrow IPC Data</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Using flowfabricpy</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Function Details</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="usage.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="usage.html#core-functions">Core Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="usage.html#catalog-utilities">Catalog Utilities</a></li>
@@ -167,17 +190,18 @@ You can always pass a token explicitly:</p>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="generated/flowfabricpy.html">flowfabricpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with flowfabricpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication with flowfabricpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage of flowfabricpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Using flowfabricpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Function Details</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="getting-started.html" title="next chapter">Getting Started with flowfabricpy</a></li>
+      <li>Next: <a href="generated/flowfabricpy.html" title="next chapter">flowfabricpy</a></li>
   </ul></li>
 </ul>
 </div>

@@ -2,7 +2,8 @@
 # can delete when building library
 import time
 
-from src.flowfabricpy import flowfabric_list_datasets, flowfabric_get_dataset, flowfabric_get_latest_run
+from src.flowfabricpy import flowfabric_list_datasets, flowfabric_get_dataset, flowfabric_get_latest_run, \
+    flowfabric_streamflow_query
 
 start_time = time.perf_counter()
 
@@ -17,6 +18,15 @@ start_time = time.perf_counter()
 #    "lead_end": 0,
 #    "format": "arrow",
 #}
+
+def try_fail():
+    try:
+        flowfabric_streamflow_query("bad-dataset")
+    except TypeError as e:
+        print(f"Error querying streamflow: {e}")
+    return 5
+
+x = try_fail()
 
 #datasets = [dataset for dataset in flowfabric_list_datasets()]
 
@@ -34,7 +44,7 @@ start_time = time.perf_counter()
 
 #print(flowfabric_get_dataset("awi_nrds_analysis"))
 
-print(flowfabric_get_latest_run("nws_owp_nwm_analysis"))
+#print(flowfabric_get_latest_run("nws_owp_nwm_analysis"))
 
 #print(flowfabric_get_run("nws_owp_nwm_analysis", issue_time="2026010514"))
 
