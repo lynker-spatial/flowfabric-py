@@ -1,4 +1,7 @@
 import unittest
+
+import pandas
+
 from src.flowfabricpy.client import (
     flowfabric_list_datasets,
     flowfabric_get_dataset,
@@ -10,7 +13,9 @@ from src.flowfabricpy.client import (
     flowfabric_healthz,
     get_bearer_token,
     normalize_time,
+    flowfabric_streamflow_query,
 )
+import polars
 
 class MyTestCase(unittest.TestCase):
     # ensures flowfabric_list_datasets() returns a list
@@ -23,20 +28,25 @@ class MyTestCase(unittest.TestCase):
         dataset = flowfabric_get_dataset("nws_owp_nwm_analysis")
         self.assertIsInstance(dataset, dict)
 
-    # tests if flowfabric_get_latest_run() returns a dict
+    # tests if flowfabric_get_latest_run() returns a pandas DataFrame
     def test_flowfabric_get_latest_run(self):
         run = flowfabric_get_latest_run("nws_owp_nwm_analysis")
-        self.assertIsInstance(run, dict)
+        self.assertIsInstance(run, pandas.DataFrame)
 
-    # test if flowfabric_streamflow_estimate returns a dict
+    # tests if flowfabric_streamflow_query() returns a pandas DataFrame
+    def test_flowfabric_streamflow_query(self):
+        streamflow = flowfabric_streamflow_query("nws_owp_nwm_analysis")
+        self.assertIsInstance(streamflow, pandas.DataFrame)
+
+    # test if flowfabric_streamflow_estimate() returns a dict
     def test_flowfabric_streamflow_estimate(self):
         estimate = flowfabric_streamflow_estimate("nws_owp_nwm_analysis")
         self.assertIsInstance(estimate, dict)
 
-    # tests if flowfabric_ratings_query() returns a dict
+    # tests if flowfabric_ratings_query() returns a polars DataFrame
     def test_flowfabric_ratings_query(self):
-        ratings = flowfabric_ratings_query(["101", "1001"])
-        self.assertIsInstance(ratings, dict)
+        ratings = flowfabric_ratings_query(["101", "1001"], format="arrow")
+        self.assertIsInstance(ratings, polars.DataFrame)
 
     # test if flowfabric_ratings_estimate() returns a dict
     def test_flowfabric_ratings_estimate(self):

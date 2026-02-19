@@ -6,9 +6,9 @@ class MyTestCase(unittest.TestCase):
 
     # tests flowfabric_get() on different return types
     def test_flowfabric_get(self):
-        resp_1 = flowfabric_get("/v1/datasets")
+        resp_1 = flowfabric_get("/v1/datasets").json()
         self.assertIsInstance(resp_1, list)
-        resp_2 = flowfabric_get("/healthz")
+        resp_2 = flowfabric_get("/healthz").json()
         self.assertIsInstance(resp_2, dict)
 
     # tests flowfabric_post() on ratings query
@@ -22,7 +22,7 @@ class MyTestCase(unittest.TestCase):
             "lead_end": 0,
             "format": "json"
         }
-        resp = flowfabric_post("/v1/ratings", body=params)
+        resp = flowfabric_post("/v1/ratings", body=params).json()
         self.assertIsInstance(resp, dict)
 
 if __name__ == '__main__':
