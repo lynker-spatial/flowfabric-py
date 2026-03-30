@@ -7,7 +7,7 @@ To use flowfabricpy, first install it using pip:
 
 .. code-block:: console
 
-   pip install git+https://github.com/plinza01/flowfabric-py#egg=flowfabricpy
+   pip install git+https://github.com/lynker-spatial/flowfabric-py#egg=flowfabricpy
 
 
 Core Functions

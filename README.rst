@@ -20,7 +20,7 @@ Installation
 .. code-block:: python
 
    # Install from GitHub:
-   pip install git+https://github.com/plinza01/flowfabric-py#egg=flowfabricpy
+   pip install git+https://github.com/lynker-spatial/flowfabric-py#egg=flowfabricpy
 
 Quick Start
 -----------
