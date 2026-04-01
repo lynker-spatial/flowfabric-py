@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "flowfabricpy"
-version = "0.1.0"
+version = "0.1.1"
 requires-python = ">=3.8"
 dependencies = ["requests"]
 description = "Python client for Flowfabric"
 readme = "README.md"
-license = "MIT"
+license = "Apache-2.0"
 authors = [{name = "Paul Linza", email = "plinza@lynker.com"}, {name = "Mike Johnson", email = "mjohnson@lynker.com"}]
