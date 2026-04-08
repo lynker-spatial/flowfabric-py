@@ -11,7 +11,7 @@
 ## Installation
 ```py
 #  Install from GitHub:
-pip install git+https://github.com/lynker-spatial/flowfabric-py#egg=flowfabricpy
+pip install flowfabricpy
 ```
 
 ## Quick Start
@@ -21,7 +21,7 @@ datasets = flowfabric_list_datasets()
 print(datasets)
 
 # 2. Query streamflow forecast (first call prompts login, then caches token)
-# More on atuhentication below ...
+# More on authentication below ...
 tbl = flowfabric_streamflow_query(
 	dataset_id = "nws_owp_nwm_analysis",
 	feature_ids = ["101", "1001"],

@@ -19,7 +19,7 @@ Installation
 ------------
 .. code-block:: console
 
-   pip install git+https://github.com/lynker-spatial/flowfabric-py#egg=flowfabricpy
+   pip install flowfabricpy
 
 Quick Start
 -----------
